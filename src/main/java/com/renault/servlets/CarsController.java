@@ -2,12 +2,7 @@ package com.renault.servlets;
 
 import com.renault.model.Car;
 import com.renault.service.CarsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
 import java.util.List;
@@ -16,15 +11,17 @@ import java.util.List;
 @RequestMapping("/cars")
 @CrossOrigin
 public class CarsController extends HttpServlet {
+    private CarsRepository carsRepository;
 
-  @Autowired
-  private CarsRepository carsRepository;
+    public CarsController(CarsRepository carsRepository) {this.carsRepository = carsRepository;}
 
-  @GetMapping("/{brand}")
-  public List<Car> get(@PathVariable("brand") String brand) {
-    return carsRepository.findByBrand(brand);
-  }
+    @GetMapping("/{brand}")
+    public List<Car> getByBrand(@PathVariable String brand) {
+        return carsRepository.findByBrand(brand);
+    }
 
-
-
+    @GetMapping
+    public List<Car> getAll() {
+        return carsRepository.findAll();
+    }
 }
